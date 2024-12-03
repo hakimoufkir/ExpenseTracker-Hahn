@@ -1,0 +1,52 @@
+services:
+   
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Admin123
+    ports:
+      - "1433:1433"
+    networks:
+      - OurNetworks-App
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "sqlcmd -S localhost -U sa -P Admin123 -Q 'SELECT 1'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3    
+
+  webapi:
+    build:
+      context: ./webAPI
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ConnectionStrings__DefaultSQLConnection=Server=sqlserver,1433;Database=ExpenseTrackerDB;User Id=sa;Password=Admin123;MultipleActiveResultSets=True;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+    networks:
+      - OurNetworks-App
+
+  webapp:
+    build:
+      context: ./webAPP
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - webapi
+    networks:
+      - OurNetworks-App
+ 
+networks:
+  OurNetworks-App:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+    driver: local
