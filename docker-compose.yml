@@ -1,32 +1,31 @@
 services:
-   
   sqlserver:
     image: mcr.microsoft.com/mssql/server
+    container_name: sqlserver-container
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Admin123
+      - SA_PASSWORD=StrongPassword@123
     ports:
       - "1433:1433"
     networks:
       - OurNetworks-App
-    volumes:
-      - sqlserver-data:/var/opt/mssql
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "sqlcmd -S localhost -U sa -P Admin123 -Q 'SELECT 1'"]
-      interval: 30s
-      timeout: 10s
-      retries: 3    
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P StrongPassword@123 -Q 'SELECT 1'"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
 
   webapi:
     build:
       context: ./webAPI
       dockerfile: Dockerfile
+    container_name: webapi-container
     ports:
       - "8080:8080"
       - "8081:8081"
     environment:
-      - ConnectionStrings__DefaultSQLConnection=Server=sqlserver,1433;Database=ExpenseTrackerDB;User Id=sa;Password=Admin123;MultipleActiveResultSets=True;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultSQLConnection=Server=sqlserver,1433;Database=ExpensesDB;User Id=sa;Password=StrongPassword@123;MultipleActiveResultSets=True;TrustServerCertificate=True;
     depends_on:
       - sqlserver
     networks:
@@ -36,17 +35,15 @@ services:
     build:
       context: ./webAPP
       dockerfile: Dockerfile
+    container_name: webapp-container
     ports:
       - "4200:80"
     depends_on:
-      - webapi
+      webapi:
+        condition: service_started
     networks:
       - OurNetworks-App
  
 networks:
   OurNetworks-App:
     driver: bridge
-
-volumes:
-  sqlserver-data:
-    driver: local

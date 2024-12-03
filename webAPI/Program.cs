@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
+using System;
 using webAPI.Data;
-using webAPI.Entities;
-using webAPI.Extensions;
 
 namespace webAPI
 {
@@ -13,25 +11,27 @@ namespace webAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Add services to the container
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-                .AddCookie(IdentityConstants.ApplicationScheme)
-                .AddBearerToken(IdentityConstants.BearerScheme);
-
-            builder.Services.AddIdentityCore<User>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddApiEndpoints();
-
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
-                builder.Configuration.GetConnectionString("DefaultSQLConnection"),
-                sqlOptions => sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null)
-            ));
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultSQLConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null)
+                ));
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Events.OnRedirectToLogin = (context) =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                });
 
             builder.Services.AddCors(options =>
             {
@@ -41,26 +41,32 @@ namespace webAPI
                           .AllowAnyMethod());
             });
 
-            WebApplication app = builder.Build();
+            var app = builder.Build();
 
+            // Apply migrations
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+            }
+
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
-                app.ApplyMigrations();
             }
 
             app.UseCors("AllowOrigin");
 
             app.UseHttpsRedirection();
 
-            app.MapIdentityApi<User>();
-
             app.MapControllers();
 
-            app.Run();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
+            app.Run();
         }
     }
 }
