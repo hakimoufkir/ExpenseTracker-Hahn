@@ -1,0 +1,13 @@
+/* Center the content */
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.p-flex-column {
+  min-height: 100vh;
+}
+
+.p-card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

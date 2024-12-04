@@ -1,5 +1,14 @@
 ﻿namespace webAPI.Models
 {
-    public record Response(bool IsSuccess, string Message);
+    public class Response
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
 
+        public Response(bool success, string message)
+        {
+            Success = success;
+            Message = message;
+        }
+    }
 }

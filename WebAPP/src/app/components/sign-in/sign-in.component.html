@@ -1,0 +1,49 @@
+<div class="p-d-flex p-flex-column p-ai-center p-jc-center" *ngIf="!signedIn; else signedInAlready">
+  <!-- Header -->
+  <h2 class="p-text-bold p-mb-3">Sign In to Continue</h2>
+
+  <!-- Card for Form -->
+  <p-card class="p-mb-4" header="Sign In" [style]="{ width: '400px' }">
+    <form [formGroup]="loginForm" (submit)="signin($event)">
+      <!-- Email Field -->
+      <div class="p-field p-mb-3">
+        <label for="email" class="p-text-bold">Email*</label>
+        <input id="email" type="text" pInputText formControlName="email" placeholder="Enter your email" />
+      </div>
+
+      <!-- Password Field -->
+      <div class="p-field p-mb-3">
+        <label for="password" class="p-text-bold">Password*</label>
+        <input id="password" type="password" pInputText formControlName="password" placeholder="Enter your password" />
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="authFailed" class="p-error p-mb-3">
+        Invalid credentials. Please try again.
+      </div>
+
+      <!-- Submit Button -->
+      <div class="p-d-flex p-jc-center">
+        <button pButton
+                type="submit"
+                label="Sign In"
+                icon="pi pi-sign-in"
+                class="p-button-primary"
+                [disabled]="!loginForm.valid"></button>
+      </div>
+    </form>
+  </p-card>
+
+  <!-- Info about credentials -->
+  <div class="p-mt-3 p-text-center">
+    Try <b>user1&#64;test.com</b> / <b>user1</b> or <b>user2&#64;test.com</b> / <b>user2</b>
+  </div>
+</div>
+
+<!-- Template for Already Signed In -->
+<ng-template #signedInAlready>
+  <div class="p-d-flex p-flex-column p-ai-center p-jc-center">
+    <h4 class="p-text-success">Welcome Back!</h4>
+    <p>You are already signed in.</p>
+  </div>
+</ng-template>

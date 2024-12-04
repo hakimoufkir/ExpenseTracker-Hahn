@@ -24,21 +24,26 @@ namespace webAPI
                 ));
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.Events.OnRedirectToLogin = (context) =>
-                    {
-                        context.Response.StatusCode = 401;
-                        return Task.CompletedTask;
-                    };
-                });
+                 .AddCookie(options =>
+                 {
+                     options.Cookie.HttpOnly = true;
+                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Use Always for HTTPS
+                     options.Cookie.SameSite = SameSiteMode.None; // Required for cross-origin cookies
+                     options.Events.OnRedirectToLogin = context =>
+                     {
+                         context.Response.StatusCode = 401; // Return 401 instead of redirecting
+                         return Task.CompletedTask;
+                     };
+                 });
 
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin", policy =>
-                    policy.WithOrigins("http://localhost:4200")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod());
+                    policy
+                        .WithOrigins("http://localhost:4200") // Replace with your frontend URL
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()); // Allow cookies and credentials
             });
 
             var app = builder.Build();

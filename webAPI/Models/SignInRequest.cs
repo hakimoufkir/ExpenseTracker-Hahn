@@ -1,5 +1,15 @@
-﻿namespace webAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace webAPI.Models
 {
-    public record SignInRequest(string Email, string Password);
+    public class SignInRequest
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
 }
 
