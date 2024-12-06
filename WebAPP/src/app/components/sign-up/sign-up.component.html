@@ -1,0 +1,22 @@
+<div class="p-card">
+  <h2>Sign Up</h2>
+  <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" pInputText />
+      <small *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">Invalid email</small>
+    </div>
+    <div class="p-field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" pInputText />
+    </div>
+    <div class="p-field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" pPassword />
+      <small *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">Password must be at least 6 characters</small>
+    </div>
+    <button pButton type="submit" label="Sign Up" [disabled]="!signUpForm.valid"></button>
+  </form>
+  <p *ngIf="authFailed" style="color: red;">Sign up failed. Please try again.</p>
+  <p *ngIf="successMessage" style="color: green;">{{ successMessage }}</p>
+</div>

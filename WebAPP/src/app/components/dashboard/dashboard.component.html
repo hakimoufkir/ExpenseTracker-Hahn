@@ -1,0 +1,49 @@
+<div class="p-4">
+  <h2 class="text-lg font-semibold mb-4">Dashboard</h2>
+
+  <!-- Month Selector -->
+  <div class="mb-4">
+    <label for="monthSelector" class="block text-sm font-medium mb-1">Select Month:</label>
+    <select id="monthSelector"
+            [(ngModel)]="currentMonth"
+            (change)="onMonthChange()"
+            class="w-full border rounded p-2">
+      <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
+    </select>
+  </div>
+
+  <!-- Budget Overview -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-semibold">Monthly Budget</h3>
+      <p class="text-2xl">${{ monthlyBudget }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-semibold">Remaining Budget</h3>
+      <p class="text-2xl">${{ remainingBudget }}</p>
+      <p *ngIf="isBudgetExceeded" class="text-red-500 font-semibold mt-2">Budget Exceeded!</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-semibold">Total Expenses</h3>
+      <p class="text-2xl">${{ totalExpenses }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-semibold">Total Income</h3>
+      <p class="text-2xl">${{ totalIncomes }}</p>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <!-- Expense Distribution -->
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-semibold mb-2">Expense Distribution</h3>
+      <canvas #expensePieChart></canvas>
+    </div>
+    <!-- Income Overview -->
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-semibold mb-2">Income Overview</h3>
+      <canvas #incomeBarChart></canvas>
+    </div>
+  </div>
+</div>

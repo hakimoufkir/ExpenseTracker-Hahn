@@ -2,32 +2,23 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using webAPI.Data;
-using webAPI.Models;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+using webAPI.Models;
+using webAPI.Services.interfaces;
 
 namespace webAPI.Controllers
 {
-    /// <summary>
-    /// Controller for managing authentication-related operations.
-    /// </summary>
     [ApiController]
     [Route("/api/auth")]
     public class AuthController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUserService _userService;
 
-        public AuthController(ApplicationDbContext context)
+        public AuthController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
-        /// <summary>
-        /// Registers a new user in the system.
-        /// </summary>
-        /// <param name="signUpRequest">The registration details including email, name, and password.</param>
-        /// <returns>A response indicating success or failure.</returns>
         [HttpPost("signup")]
         [ProducesResponseType(typeof(Response), 200)]
         [ProducesResponseType(typeof(Response), 400)]
@@ -36,24 +27,8 @@ namespace webAPI.Controllers
         {
             try
             {
-                if (_context.Users.Any(x => x.Email == signUpRequest.Email))
-                {
-                    return BadRequest(new Response(false, "Email is already registered."));
-                }
-
-                var user = new User
-                {
-                    Email = signUpRequest.Email,
-                    Name = signUpRequest.Name,
-                };
-
-                var passwordHasher = new PasswordHasher<User>();
-                user.Password = passwordHasher.HashPassword(user, signUpRequest.Password);
-
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-
-                return Ok(new Response(true, "User registered successfully."));
+                var result = await _userService.RegisterUserAsync(signUpRequest);
+                return result.Success ? Ok(result) : BadRequest(result);
             }
             catch (Exception ex)
             {
@@ -61,11 +36,6 @@ namespace webAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// Signs in an existing user and establishes a session.
-        /// </summary>
-        /// <param name="signInRequest">The user's credentials including email and password.</param>
-        /// <returns>A response indicating success or failure.</returns>
         [HttpPost("signin")]
         [ProducesResponseType(typeof(Response), 200)]
         [ProducesResponseType(typeof(Response), 400)]
@@ -74,37 +44,8 @@ namespace webAPI.Controllers
         {
             try
             {
-                var user = _context.Users.FirstOrDefault(x => x.Email == signInRequest.Email);
-                if (user == null)
-                {
-                    return BadRequest(new Response(false, "Invalid credentials."));
-                }
-
-                var passwordHasher = new PasswordHasher<User>();
-                var result = passwordHasher.VerifyHashedPassword(user, user.Password, signInRequest.Password);
-                if (result != PasswordVerificationResult.Success)
-                {
-                    return BadRequest(new Response(false, "Invalid credentials."));
-                }
-
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Name, user.Name)
-                };
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(identity),
-                    new AuthenticationProperties
-                    {
-                        IsPersistent = true,
-                        AllowRefresh = true,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                    });
-
-                return Ok(new Response(true, "Signed in successfully"));
+                var result = await _userService.AuthenticateUserAsync(signInRequest, HttpContext);
+                return result.Success ? Ok(result) : BadRequest(result);
             }
             catch (Exception ex)
             {
@@ -112,21 +53,25 @@ namespace webAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// Retrieves the claims of the currently signed-in user.
-        /// </summary>
-        /// <returns>A list of user claims.</returns>
         [Authorize]
         [HttpGet("user")]
         [ProducesResponseType(typeof(List<UserClaim>), 200)]
         [ProducesResponseType(typeof(Response), 401)]
         [ProducesResponseType(typeof(Response), 500)]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
             try
             {
-                var userClaims = User.Claims.Select(x => new UserClaim(x.Type, x.Value)).ToList();
-                return Ok(userClaims);
+                var claims = await _userService.GetUserClaimsAsync(HttpContext);
+
+                // Include the `userId` claim explicitly if not present
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (!claims.Any(c => c.Type == "userId") && userId != null)
+                {
+                    claims.Add(new UserClaim("userId", userId));
+                }
+
+                return Ok(claims);
             }
             catch (Exception ex)
             {
@@ -134,10 +79,6 @@ namespace webAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// Signs out the currently authenticated user.
-        /// </summary>
-        /// <returns>A response indicating success.</returns>
         [Authorize]
         [HttpGet("signout")]
         [ProducesResponseType(typeof(Response), 200)]
@@ -146,8 +87,8 @@ namespace webAPI.Controllers
         {
             try
             {
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return Ok(new Response(true, "Signed out successfully."));
+                var result = await _userService.SignOutUserAsync(HttpContext);
+                return result.Success ? Ok(result) : StatusCode(500, result);
             }
             catch (Exception ex)
             {

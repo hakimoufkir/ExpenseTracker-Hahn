@@ -22,12 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="enums\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Services\" />
-    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>

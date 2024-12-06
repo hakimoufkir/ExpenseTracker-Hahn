@@ -1,0 +1,27 @@
+<div class="p-4">
+  <h2 class="text-lg font-semibold mb-4">Income List</h2>
+
+  <!-- Month Filter -->
+  <div class="mb-4">
+    <label for="monthFilter" class="block text-sm font-medium mb-1">Filter by Month:</label>
+    <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="w-full border rounded p-2">
+      <option *ngFor="let month of months" [value]="month[1]">{{ month[0] }}</option>
+    </select>
+  </div>
+
+  <!-- Income Table -->
+  <table class="table-auto w-full text-left border-collapse">
+    <thead>
+      <tr>
+        <th class="border-b-2 border-gray-300 px-4 py-2">Description</th>
+        <th class="border-b-2 border-gray-300 px-4 py-2">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let income of incomes">
+        <td class="border-t border-gray-300 px-4 py-2">{{ income.description }}</td>
+        <td class="border-t border-gray-300 px-4 py-2">${{ income.amount }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

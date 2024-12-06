@@ -1,26 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace webAPI.Models
 {
     public class User
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required]
-        [EmailAddress]
-        [MaxLength(100)]
-        public string Email { get; set; }
-
-        [Required]
-        [MaxLength(50)]
         public string Name { get; set; }
-
-        [Required]
-        [MinLength(6)]
+        public string Email { get; set; }
         public string Password { get; set; }
+
+        // Navigation property to Budgets (ignored in serialization)
+        [JsonIgnore]
+        public ICollection<Budget> Budget { get; set; }
+
+        // Navigation property to Expenses (ignored in serialization)
+        [JsonIgnore]
+        public ICollection<Expense> Expenses { get; set; }  
     }
 
 }

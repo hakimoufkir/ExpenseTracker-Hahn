@@ -7,15 +7,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router); // Inject the Router service
 
-  return next(req).pipe(
+  // Clone the request to add withCredentials
+  const modifiedRequest = req.clone({
+    withCredentials: true, // Ensure cookies are sent with the request
+  });
+
+  return next(modifiedRequest).pipe(
     tap(
       () => {
-        console.log('Request succeeded:', req.url);
+        console.log('int : Request succeeded:', req.url);
       },
       (err: any) => {
         if (err instanceof HttpErrorResponse && err.status === 401) {
-          console.log('Unauthorized request:', req.url);
-          router.navigate(['signin']);
+          console.log('int : Unauthorized request:', req.url);
+          router.navigate(['']); // Redirect to the sign-in page
         }
       }
     )

@@ -11,7 +11,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   return authService.isSignedIn().pipe(
     map((isSignedIn) => {
       if (!isSignedIn) {
-        router.navigate(['signin']); // Redirect to signin if not authenticated
+        router.navigate(['']); // Redirect to signin if not authenticated
         return false;
       }
       return true; // Allow access if authenticated

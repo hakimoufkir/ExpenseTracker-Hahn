@@ -1,0 +1,55 @@
+<div class="container mx-auto mt-6 max-w-lg">
+  <h2 class="text-xl font-semibold mb-4">Add Expense</h2>
+  <form (ngSubmit)="onSubmit()" class="space-y-4">
+    <!-- Description -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Description</label>
+      <input type="text"
+             [(ngModel)]="newExpense.description"
+             (ngModelChange)="onInputChange()"
+             name="description"
+             class="w-full border rounded p-2"
+             required />
+    </div>
+    <!-- Amount -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Amount</label>
+      <input type="number"
+             [(ngModel)]="newExpense.amount"
+             (ngModelChange)="onInputChange()"
+             name="amount"
+             class="w-full border rounded p-2"
+             required />
+    </div>
+    <!-- Category -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Category</label>
+      <select [(ngModel)]="newExpense.category"
+              (ngModelChange)="onInputChange()"
+              name="category"
+              class="w-full border rounded p-2"
+              required>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+    <!-- Month -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Month</label>
+      <select [(ngModel)]="newExpense.month"
+              (ngModelChange)="onInputChange()"
+              name="month"
+              class="w-full border rounded p-2"
+              required>
+        <option *ngFor="let month of months" [value]="month[1]">
+          {{ month[0] }}
+        </option>
+      </select>
+    </div>
+    <!-- Submit Button -->
+    <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded">
+      Add Expense
+    </button>
+  </form>
+</div>

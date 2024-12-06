@@ -16,6 +16,28 @@ import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
+//========================================================================================================//
+
+import { SigninComponent } from './shared/templates/signin/signin.component';
+import { SignupComponent } from './shared/templates/signup/signup.component';
+import { PageNotFoundComponent } from './shared/templates/page-not-found/page-not-found.component';
+import { DashboardComponent as DashboardComponent2 } from './shared/templates/dashboard/dashboard.component';
+import { CommonService } from './shared/templates/_core/services/common.service';
+import { AlertComponent } from './shared/templates/signin/alert/alert.component';
+import { ValidationErrorComponent } from './shared/templates/signin/validation-error/validation-error.component';
+import { SpinnerComponent } from './shared/templates/signin/spinner/spinner.component';
+import { HeaderComponent } from './shared/templates/header/header.component';
+import { SidebarComponent } from './shared/templates/sidebar/sidebar.component';
+import { FooterComponent } from './shared/templates/footer/footer.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { AddExpenseComponent } from './components/add-expense/add-expense.component';
+import { ExpenseListComponent } from './components/expense-list/expense-list.component';
+import { AddBudgetComponent } from './components/add-budget/add-budget.component';
+import { AddIncomeComponent } from './components/add-income/add-income.component';
+import { IncomeListComponent } from './components/income-list/income-list.component';
 
 
 @NgModule({
@@ -23,7 +45,22 @@ import { CardModule } from 'primeng/card';
     AppComponent,
     SignInComponent,
     UserComponentComponent,
-    SignOutComponent
+    SignOutComponent,
+    SignUpComponent,
+    DashboardComponent,
+    SigninComponent,
+    SignupComponent,
+    PageNotFoundComponent,
+    DashboardComponent2,
+    SidebarComponent,
+    HeaderComponent,
+    FooterComponent,
+    MainLayoutComponent,
+    AddExpenseComponent,
+    ExpenseListComponent,
+    AddBudgetComponent,
+    AddIncomeComponent,
+    IncomeListComponent
   ],
   imports: [
     BrowserModule,
@@ -36,13 +73,14 @@ import { CardModule } from 'primeng/card';
     InputTextModule,
     ButtonModule,
     CardModule,
+    RouterModule, // Required for routing/navigation
+    AlertComponent, // Add this
+    ValidationErrorComponent, // Add this
+    SpinnerComponent // Add this,
   ],
   providers: [
-    {
-      provide: withInterceptors,
-      useValue: [authInterceptor], // Register functional interceptor
-      multi: true,
-    },
+    provideHttpClient(withInterceptors([authInterceptor])), // Register the interceptor here
+    CommonService,
   ],
   bootstrap: [AppComponent]
 })

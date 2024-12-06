@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../../services/auth-service.service';
-import { ResponseAPI } from '../../interfaces/ResponseAPI';
+import { ResponseAPI } from '../../interfaces/response-API';
 
 @Component({
   selector: 'app-sign-in',
@@ -35,23 +35,35 @@ export class SignInComponent implements OnInit {
 
   signin(event: Event): void {
     event.preventDefault();
+    console.log('Sign-in button clicked'); // Debug log 1
 
     if (!this.loginForm.valid) {
+      console.log('Form is invalid:', this.loginForm.errors); // Debug log 2
       return;
     }
 
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
+    console.log('Form values:', { email, password }); // Debug log 3
 
     this.authService.signIn(email, password).subscribe(
       (response: ResponseAPI) => {
-        if (response.isSuccess) {
-          this.router.navigate(['user']);
+        console.log('API Response:', response); // Debug log 4
+        if (response.success) {
+          console.log('Sign-in successful, navigating...'); // Debug log 5
+          this.router.navigate(['dashboard']);
         }
       },
       (error) => {
+        console.error('API Error:', error);
+        if (error.status === 401) {
+          console.log('Unauthorized: Invalid credentials');
+        } else {
+          console.log('Unexpected error:', error.message);
+        }
         this.authFailed = true;
       }
     );
   }
+
 }

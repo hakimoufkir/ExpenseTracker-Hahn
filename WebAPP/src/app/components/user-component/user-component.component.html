@@ -1,1 +1,5 @@
-<p>user-component works!</p>
+<div *ngIf="isLoading">Loading user information...</div>
+<div *ngIf="!isLoading">
+  <h2>Welcome, {{ userName }}!</h2>
+  <p>Email: {{ userEmail }}</p>
+</div>

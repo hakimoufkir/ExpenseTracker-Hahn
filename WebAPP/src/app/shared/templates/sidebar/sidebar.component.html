@@ -1,0 +1,86 @@
+<aside>
+  <div class="brand-wrapper">
+    <a href="#" class="brand text-center">
+      <h1 class="flex items-center font-bold text-slate-300">
+        <span class="text-2xl mr-2 bg-green-600 w-8 h-8 rounded-md">N</span>
+        <span class="text-3xl tracking-widest">ngWind</span>
+      </h1>
+    </a>
+  </div>
+  <ul class="menu-links">
+    <li>
+      <a [routerLink]="['/dashboard']"
+         routerLinkActive="active" class="menu-item" ariaCurrentWhenActive="page">
+        <i class="bi bi-columns-gap"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <!-- New Section for Expense Management -->
+    <li>
+      <a href="javascript:void(0)" class="menu-item sub-menu" aria-expanded="false"
+         (click)="subMenuToggleHandler($event)">
+        <i class="bi bi-wallet"></i>
+        <span>Expense Management</span>
+      </a>
+      <ul class="sub-menu-item">
+        <li>
+          <a class="menu-item" [routerLink]="['/add-expense']" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <span>Add Expense</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" [routerLink]="['/expense-list']" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <span>View Expenses</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- Placeholder for Income Management -->
+    <li>
+      <a href="javascript:void(0)" class="menu-item sub-menu" aria-expanded="false"
+         (click)="subMenuToggleHandler($event)">
+        <i class="bi bi-cash"></i>
+        <span>Income Management</span>
+      </a>
+      <ul class="sub-menu-item">
+        <li>
+          <a class="menu-item" [routerLink]="['/add-income']" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <span>Add Income</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" [routerLink]="['/income-list']" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <span>View Income</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- Placeholder for Budget Management -->
+    <li>
+      <a href="javascript:void(0)" class="menu-item sub-menu" aria-expanded="false"
+         (click)="subMenuToggleHandler($event)">
+        <i class="bi bi-pie-chart"></i>
+        <span>Budget Management</span>
+      </a>
+      <ul class="sub-menu-item">
+        <li>
+          <a class="menu-item" [routerLink]="['/add-budget']" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <span>Set Budget</span>
+          </a>
+        </li>
+        <!--<li>
+          <a class="menu-item" [routerLink]="['/budget-list']" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <span>View Budgets</span>
+          </a>
+        </li>-->
+      </ul>
+    </li>
+    <!-- Logout -->
+    <li>
+      <a href="#" class="menu-item">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>
+</aside>

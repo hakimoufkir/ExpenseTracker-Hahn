@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System;
 using webAPI.Data;
+using webAPI.Extensions;
+using webAPI.Repositories.Interfaces;
+using webAPI.Repositories;
+using Microsoft.AspNetCore.Identity;
+using webAPI.Models;
+using webAPI.Profiles;
 
 namespace webAPI
 {
@@ -11,10 +17,26 @@ namespace webAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Register HttpContextAccessor for accessing the current HTTP context
+            builder.Services.AddHttpContextAccessor();
+
+            // Register the generic repository for all entities
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            //mapper
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+
             // Add services to the container
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // Add custom repository and service injections
+            builder.Services.AddRepositories(); // Inject all repositories
+            builder.Services.AddServices();     // Inject all services
+            builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
 
             builder.Services.AddAuthorization();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>

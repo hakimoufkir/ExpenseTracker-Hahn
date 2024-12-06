@@ -21,6 +21,246 @@ namespace webAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("webAPI.Models.Budget", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MonthlyLimit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalSpent")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Budgets");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Month = 12,
+                            MonthlyLimit = 2000.00m,
+                            TotalSpent = 115.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Month = 12,
+                            MonthlyLimit = 1500.00m,
+                            TotalSpent = 300.00m,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Month = 12,
+                            MonthlyLimit = 2500.00m,
+                            TotalSpent = 800.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Month = 12,
+                            MonthlyLimit = 1000.00m,
+                            TotalSpent = 450.00m,
+                            UserId = 4
+                        });
+                });
+
+            modelBuilder.Entity("webAPI.Models.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Expenses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 75.00m,
+                            Category = "Food",
+                            Description = "Groceries",
+                            Month = 12,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 40.00m,
+                            Category = "Transport",
+                            Description = "Transport",
+                            Month = 12,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 150.00m,
+                            Category = "Entertainment",
+                            Description = "Dining Out",
+                            Month = 12,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 50.00m,
+                            Category = "Utilities",
+                            Description = "Internet Bill",
+                            Month = 12,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Amount = 100.00m,
+                            Category = "Transport",
+                            Description = "Gas",
+                            Month = 12,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Amount = 500.00m,
+                            Category = "Transport",
+                            Description = "Car Maintenance",
+                            Month = 12,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Amount = 300.00m,
+                            Category = "Food",
+                            Description = "Groceries",
+                            Month = 12,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Amount = 200.00m,
+                            Category = "Utilities",
+                            Description = "Electricity Bill",
+                            Month = 12,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Amount = 250.00m,
+                            Category = "Entertainment",
+                            Description = "Dining Out",
+                            Month = 12,
+                            UserId = 4
+                        });
+                });
+
+            modelBuilder.Entity("webAPI.Models.Income", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Incomes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 3000.00m,
+                            Description = "Monthly Salary",
+                            Month = 12,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 2500.00m,
+                            Description = "Freelance Work",
+                            Month = 12,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 4000.00m,
+                            Description = "Consulting Project",
+                            Month = 12,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 1500.00m,
+                            Description = "Part-Time Job",
+                            Month = 12,
+                            UserId = 4
+                        });
+                });
+
             modelBuilder.Entity("webAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -31,13 +271,11 @@ namespace webAPI.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -52,16 +290,70 @@ namespace webAPI.Migrations
                         {
                             Id = 1,
                             Email = "user1@hahn.com",
-                            Name = "hahn 1",
-                            Password = "AQAAAAIAAYagAAAAEHXurCU7G6bQdHhm1K9QDUZ2jwTGfoSOsqrO49SWliNl/IOYsKedfvGfGEb0s05nDg=="
+                            Name = "User1",
+                            Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
                         },
                         new
                         {
                             Id = 2,
                             Email = "user2@hahn.com",
-                            Name = "hahn 2",
-                            Password = "AQAAAAIAAYagAAAAEL63ITHgAgQlDt0tGDbWWMYg3YPgm5ngq7ylznEVpdnXPdJpvJw6rEV4SX2vCLX2jQ=="
+                            Name = "User2",
+                            Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "user3@hahn.com",
+                            Name = "User3",
+                            Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "user4@hahn.com",
+                            Name = "User4",
+                            Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
                         });
+                });
+
+            modelBuilder.Entity("webAPI.Models.Budget", b =>
+                {
+                    b.HasOne("webAPI.Models.User", "User")
+                        .WithMany("Budget")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("webAPI.Models.Expense", b =>
+                {
+                    b.HasOne("webAPI.Models.User", "User")
+                        .WithMany("Expenses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("webAPI.Models.Income", b =>
+                {
+                    b.HasOne("webAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("webAPI.Models.User", b =>
+                {
+                    b.Navigation("Budget");
+
+                    b.Navigation("Expenses");
                 });
 #pragma warning restore 612, 618
         }
