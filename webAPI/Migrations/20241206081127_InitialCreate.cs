@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace webAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateBudgetWithMonthEnum : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,7 +36,6 @@ namespace webAPI.Migrations
                     MonthlyLimit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalSpent = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Month = table.Column<int>(type: "int", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -57,9 +55,9 @@ namespace webAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -80,10 +78,10 @@ namespace webAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,50 +97,41 @@ namespace webAPI.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password" },
-                values: new object[,]
-                {
-                    { 1, "user1@hahn.com", "User1", "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f" },
-                    { 2, "user2@hahn.com", "User2", "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f" },
-                    { 3, "user3@hahn.com", "User3", "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f" },
-                    { 4, "user4@hahn.com", "User4", "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f" }
-                });
+                values: new object[] { 1, "user1@hahn.com", "User1", "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f" });
 
             migrationBuilder.InsertData(
                 table: "Budgets",
-                columns: new[] { "Id", "Month", "MonthlyLimit", "TotalSpent", "UserId", "Year" },
+                columns: new[] { "Id", "Month", "MonthlyLimit", "TotalSpent", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 12, 2000.00m, 115.00m, 1, 2024 },
-                    { 2, 12, 1500.00m, 300.00m, 2, 2024 },
-                    { 3, 12, 2500.00m, 800.00m, 3, 2024 },
-                    { 4, 12, 1000.00m, 450.00m, 4, 2024 }
+                    { 1, 12, 5000.00m, 0.00m, 1 },
+                    { 2, 11, 4500.00m, 0.00m, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Expenses",
-                columns: new[] { "Id", "Amount", "Category", "Date", "Description", "UserId" },
+                columns: new[] { "Id", "Amount", "Category", "Description", "Month", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 75.00m, "Food", new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Groceries", 1 },
-                    { 2, 40.00m, "Transport", new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Transport", 1 },
-                    { 3, 150.00m, "Entertainment", new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Dining Out", 2 },
-                    { 4, 50.00m, "Utilities", new DateTime(2024, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Internet Bill", 2 },
-                    { 5, 100.00m, "Transport", new DateTime(2024, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gas", 2 },
-                    { 6, 500.00m, "Transport", new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Car Maintenance", 3 },
-                    { 7, 300.00m, "Food", new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Groceries", 3 },
-                    { 8, 200.00m, "Utilities", new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Electricity Bill", 4 },
-                    { 9, 250.00m, "Entertainment", new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Dining Out", 4 }
+                    { 1, 200.00m, "Food", "Groceries", 12, 1 },
+                    { 2, 150.00m, "Entertainment", "Dining Out", 12, 1 },
+                    { 3, 120.00m, "Utilities", "Electricity Bill", 12, 1 },
+                    { 4, 60.00m, "Utilities", "Internet Bill", 12, 1 },
+                    { 5, 180.00m, "Transport", "Fuel", 12, 1 },
+                    { 6, 50.00m, "Health", "Gym Membership", 12, 1 },
+                    { 7, 90.00m, "Education", "Books", 12, 1 },
+                    { 8, 250.00m, "Miscellaneous", "Gifts", 12, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Incomes",
-                columns: new[] { "Id", "Amount", "Date", "Description", "UserId" },
+                columns: new[] { "Id", "Amount", "Description", "Month", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 3000.00m, new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Monthly Salary", 1 },
-                    { 2, 2500.00m, new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Freelance Work", 2 },
-                    { 3, 4000.00m, new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Consulting Project", 3 },
-                    { 4, 1500.00m, new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Part-Time Job", 4 }
+                    { 1, 4000.00m, "Monthly Salary", 12, 1 },
+                    { 2, 500.00m, "Freelance Project", 12, 1 },
+                    { 3, 300.00m, "Investment Return", 12, 1 },
+                    { 4, 200.00m, "Rental Income", 12, 1 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -10,21 +10,21 @@
              class="w-full border rounded p-2"
              required />
     </div>
-    <!-- Month -->
+
+    <!-- Month Selector -->
     <div>
-      <label class="block text-sm font-medium mb-1">Month</label>
+      <label class="block text-sm font-medium mb-1">Select Month</label>
       <select [(ngModel)]="newBudget.month"
               name="month"
               class="w-full border rounded p-2"
               required>
-        <option *ngFor="let month of months" [value]="month.key">
-          {{ month.value }}
-        </option>
+        <option *ngFor="let month of months" [value]="month.key">{{ month.value }}</option>
       </select>
     </div>
+
     <!-- Submit Button -->
     <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded">
-      Add Budget
+      Save Budget
     </button>
   </form>
 </div>

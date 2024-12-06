@@ -38,6 +38,7 @@ import { ExpenseListComponent } from './components/expense-list/expense-list.com
 import { AddBudgetComponent } from './components/add-budget/add-budget.component';
 import { AddIncomeComponent } from './components/add-income/add-income.component';
 import { IncomeListComponent } from './components/income-list/income-list.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { IncomeListComponent } from './components/income-list/income-list.compon
     ExpenseListComponent,
     AddBudgetComponent,
     AddIncomeComponent,
-    IncomeListComponent
+    IncomeListComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,

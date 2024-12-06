@@ -21,7 +21,16 @@ public class BudgetService : IBudgetService
     public async Task<BudgetDTO?> GetBudgetAsync(int userId, MonthEnum month)
     {
         var budget = await _budgetRepo.GetAsNoTracking(b => b.UserId == userId && b.Month == month);
-        return _mapper.Map<BudgetDTO>(budget);
+        if (budget == null) return null;
+
+        // Dynamically calculate total spent for the month
+        var totalSpent = (await _expenseRepo.GetAllAsNoTracking(e => e.UserId == userId && e.Month == month))
+                         .Sum(e => e.Amount);
+
+        var budgetDto = _mapper.Map<BudgetDTO>(budget);
+        budgetDto.TotalSpent = totalSpent; // Add total spent dynamically
+
+        return budgetDto;
     }
 
     public async Task<bool> SetMonthlyBudgetAsync(int userId, BudgetDTO budgetDto)
@@ -45,15 +54,12 @@ public class BudgetService : IBudgetService
 
     public async Task<bool> NotifyIfBudgetExceededAsync(int userId, MonthEnum month)
     {
-        // Fetch the budget for the given user and month
         var budget = await _budgetRepo.GetAsNoTracking(b => b.UserId == userId && b.Month == month);
         if (budget == null) return false;
 
-        // Calculate the total expenses for the given user and month
         var totalExpenses = (await _expenseRepo.GetAllAsNoTracking(e => e.UserId == userId && e.Month == month))
                             .Sum(e => e.Amount);
 
-        // Check if total expenses exceed the monthly limit
         return totalExpenses > budget.MonthlyLimit;
     }
 }

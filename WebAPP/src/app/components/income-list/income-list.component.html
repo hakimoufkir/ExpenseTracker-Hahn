@@ -2,10 +2,16 @@
   <h2 class="text-lg font-semibold mb-4">Income List</h2>
 
   <!-- Month Filter -->
-  <div class="mb-4">
-    <label for="monthFilter" class="block text-sm font-medium mb-1">Filter by Month:</label>
-    <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="w-full border rounded p-2">
-      <option *ngFor="let month of months" [value]="month[1]">{{ month[0] }}</option>
+  <div>
+    <label class="block text-sm font-medium mb-1">Select Month</label>
+    <select [(ngModel)]="selectedMonth"
+            name="month"
+            (change)="onMonthChange()"
+            class="w-full border rounded p-2"
+            required>
+      <option *ngFor="let month of months" [value]="month.key">
+        {{ month.value }}
+      </option>
     </select>
   </div>
 

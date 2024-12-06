@@ -14,7 +14,7 @@ import { CreateExpenseDTO } from '../../interfaces/create-expense-dto';
 export class AddExpenseComponent {
   newExpense: Partial<CreateExpenseDTO> = {
     category: ExpenseCategory.Food,
-    month: MonthEnum.January,
+    month: MonthEnum.December,
   };
 
   months = Object.entries(MonthEnum); // Get month enum entries

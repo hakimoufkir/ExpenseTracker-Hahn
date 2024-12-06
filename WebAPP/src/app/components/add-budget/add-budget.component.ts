@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BudgetsService } from '../../services/budgets.service';
 import { CreateBudgetDTO } from '../../interfaces/create-budget-dto';
-import { AuthServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-add-budget',
@@ -11,7 +10,7 @@ import { AuthServiceService } from '../../services/auth-service.service';
 })
 export class AddBudgetComponent {
   newBudget: CreateBudgetDTO = {
-    monthlyLimit: 0, // Initialize with 0
+    monthlyLimit: 0, // Initialize with default
     month: 1, // Default to January
   };
 
@@ -30,12 +29,12 @@ export class AddBudgetComponent {
     { key: 12, value: 'December' },
   ];
 
-  constructor(private budgetsService: BudgetsService, private router: Router, private authService: AuthServiceService) { }
+  constructor(private budgetsService: BudgetsService, private router: Router) { }
 
   onSubmit(): void {
     const budget: CreateBudgetDTO = {
       monthlyLimit: this.newBudget.monthlyLimit || 0,
-      month: Number(this.newBudget.month) || new Date().getMonth() + 1, // Convert month to a number
+      month: Number(this.newBudget.month) || new Date().getMonth() + 1
     };
 
     console.log('Submitting budget:', budget); // Debugging info

@@ -20,9 +20,7 @@ export class BudgetsService {
    */
   getBudgetForMonth(month: MonthEnum): Observable<Budget> {
     return this.authService.getUserId().pipe(
-      switchMap((userId) =>
-        this.http.get<Budget>(`${this.api}/${month}?userId=${userId}`)
-      )
+      switchMap((userId) => this.http.get<Budget>(`${this.api}/${month}`))
     );
   }
 
@@ -31,16 +29,19 @@ export class BudgetsService {
    */
   isBudgetExceeded(month: MonthEnum): Observable<boolean> {
     return this.authService.getUserId().pipe(
-      switchMap((userId) =>
-        this.http.get<boolean>(`${this.api}/${month}/budget-exceeded?userId=${userId}`)
-      )
+      switchMap((userId) => this.http.get<boolean>(`${this.api}/${month}/budget-exceeded`))
     );
   }
 
   /**
    * Add or update a budget.
    */
-  saveBudget(budget: any): Observable<any> {
-    return this.http.post(`${this.api}`, budget);
+  saveBudget(budget: CreateBudgetDTO): Observable<any> {
+    return this.authService.getUserId().pipe(
+      switchMap((userId) => {
+        budget.userId = userId; // Ensure the userId is included in the payload
+        return this.http.post(`${this.api}`, budget);
+      })
+    );
   }
 }

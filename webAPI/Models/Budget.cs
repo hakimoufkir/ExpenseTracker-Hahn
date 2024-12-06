@@ -11,10 +11,7 @@ namespace webAPI.Models
 
         [Required]
         [Range(0.01, double.MaxValue)]
-        public decimal MonthlyLimit { get; set; }
-
-        [Required]
-        public decimal TotalSpent { get; set; } // Calculated from expenses
+        public decimal MonthlyLimit { get; set; }       
 
         [Required]
         public MonthEnum Month { get; set; } // Enum for Month

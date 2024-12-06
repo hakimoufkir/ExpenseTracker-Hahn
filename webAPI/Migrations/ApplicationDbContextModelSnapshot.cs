@@ -52,33 +52,17 @@ namespace webAPI.Migrations
                         {
                             Id = 1,
                             Month = 12,
-                            MonthlyLimit = 2000.00m,
-                            TotalSpent = 115.00m,
+                            MonthlyLimit = 5000.00m,
+                            TotalSpent = 0.00m,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Month = 12,
-                            MonthlyLimit = 1500.00m,
-                            TotalSpent = 300.00m,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Month = 12,
-                            MonthlyLimit = 2500.00m,
-                            TotalSpent = 800.00m,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Month = 12,
-                            MonthlyLimit = 1000.00m,
-                            TotalSpent = 450.00m,
-                            UserId = 4
+                            Month = 11,
+                            MonthlyLimit = 4500.00m,
+                            TotalSpent = 0.00m,
+                            UserId = 1
                         });
                 });
 
@@ -118,7 +102,7 @@ namespace webAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Amount = 75.00m,
+                            Amount = 200.00m,
                             Category = "Food",
                             Description = "Groceries",
                             Month = 12,
@@ -127,74 +111,65 @@ namespace webAPI.Migrations
                         new
                         {
                             Id = 2,
-                            Amount = 40.00m,
-                            Category = "Transport",
-                            Description = "Transport",
+                            Amount = 150.00m,
+                            Category = "Entertainment",
+                            Description = "Dining Out",
                             Month = 12,
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Amount = 150.00m,
-                            Category = "Entertainment",
-                            Description = "Dining Out",
+                            Amount = 120.00m,
+                            Category = "Utilities",
+                            Description = "Electricity Bill",
                             Month = 12,
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
                             Id = 4,
-                            Amount = 50.00m,
+                            Amount = 60.00m,
                             Category = "Utilities",
                             Description = "Internet Bill",
                             Month = 12,
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
                             Id = 5,
-                            Amount = 100.00m,
+                            Amount = 180.00m,
                             Category = "Transport",
-                            Description = "Gas",
+                            Description = "Fuel",
                             Month = 12,
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
                             Id = 6,
-                            Amount = 500.00m,
-                            Category = "Transport",
-                            Description = "Car Maintenance",
+                            Amount = 50.00m,
+                            Category = "Health",
+                            Description = "Gym Membership",
                             Month = 12,
-                            UserId = 3
+                            UserId = 1
                         },
                         new
                         {
                             Id = 7,
-                            Amount = 300.00m,
-                            Category = "Food",
-                            Description = "Groceries",
+                            Amount = 90.00m,
+                            Category = "Education",
+                            Description = "Books",
                             Month = 12,
-                            UserId = 3
+                            UserId = 1
                         },
                         new
                         {
                             Id = 8,
-                            Amount = 200.00m,
-                            Category = "Utilities",
-                            Description = "Electricity Bill",
-                            Month = 12,
-                            UserId = 4
-                        },
-                        new
-                        {
-                            Id = 9,
                             Amount = 250.00m,
-                            Category = "Entertainment",
-                            Description = "Dining Out",
+                            Category = "Miscellaneous",
+                            Description = "Gifts",
                             Month = 12,
-                            UserId = 4
+                            UserId = 1
                         });
                 });
 
@@ -230,7 +205,7 @@ namespace webAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Amount = 3000.00m,
+                            Amount = 4000.00m,
                             Description = "Monthly Salary",
                             Month = 12,
                             UserId = 1
@@ -238,26 +213,26 @@ namespace webAPI.Migrations
                         new
                         {
                             Id = 2,
-                            Amount = 2500.00m,
-                            Description = "Freelance Work",
+                            Amount = 500.00m,
+                            Description = "Freelance Project",
                             Month = 12,
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Amount = 4000.00m,
-                            Description = "Consulting Project",
+                            Amount = 300.00m,
+                            Description = "Investment Return",
                             Month = 12,
-                            UserId = 3
+                            UserId = 1
                         },
                         new
                         {
                             Id = 4,
-                            Amount = 1500.00m,
-                            Description = "Part-Time Job",
+                            Amount = 200.00m,
+                            Description = "Rental Income",
                             Month = 12,
-                            UserId = 4
+                            UserId = 1
                         });
                 });
 
@@ -291,27 +266,6 @@ namespace webAPI.Migrations
                             Id = 1,
                             Email = "user1@hahn.com",
                             Name = "User1",
-                            Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "user2@hahn.com",
-                            Name = "User2",
-                            Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "user3@hahn.com",
-                            Name = "User3",
-                            Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "user4@hahn.com",
-                            Name = "User4",
                             Password = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
                         });
                 });

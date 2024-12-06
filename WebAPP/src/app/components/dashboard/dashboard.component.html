@@ -38,12 +38,18 @@
     <!-- Expense Distribution -->
     <div class="bg-white p-4 rounded shadow">
       <h3 class="font-semibold mb-2">Expense Distribution</h3>
-      <canvas #expensePieChart></canvas>
+      <canvas id="expenseChart" #expensePieChart></canvas>
     </div>
-    <!-- Income Overview -->
+    <!-- Income vs. Expenses -->
     <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-semibold mb-2">Income Overview</h3>
-      <canvas #incomeBarChart></canvas>
+      <h3 class="font-semibold mb-2">Income vs. Expenses</h3>
+      <canvas id="incomeExpenseChart" #incomeExpenseChart></canvas>
     </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div *ngFor="let toast of toastService.toasts"
+       class="fixed bottom-4 right-4 bg-emerald-600 text-white py-2 px-4 rounded mb-2">
+    {{ toast.message }}
   </div>
 </div>

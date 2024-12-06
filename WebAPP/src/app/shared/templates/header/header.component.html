@@ -1,27 +1,46 @@
 <header class="bg-white py-3 px-8 shadow-[0_5px_5px_-5px] shadow-gray-200 sticky top-0 admin-navbar">
   <div class="flex justify-between items-center">
-    <div class="flex justify-start items-center gap-x-3">     
+    <!-- Left Section -->
+    <div class="flex justify-start items-center gap-x-3">
+      <button type="button"
+              class="text-xl text-gray-600 rounded-full w-10 h-10 transition hover:bg-slate-200"
+              title="Home">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
     </div>
+
+    <!-- Right Section -->
     <div class="flex justify-end items-center gap-x-3">
+      <!-- Theme Toggle -->
       <div class="relative inline-block">
-        <button type="button" class="text-xl text-light rounded-full w-10 h-10 transition hover:bg-slate-200">
-          <i class="bi bi-moon-stars"></i>
+        <button type="button"
+                class="text-xl text-gray-600 rounded-full w-10 h-10 transition hover:bg-slate-200"
+                title="Toggle Theme">
+          <i class="bi bi-brightness-high-fill"></i>
         </button>
       </div>
+
+      <!-- Notifications -->
       <div class="relative inline-block">
-        <button type="button" class="text-xl text-light rounded-full w-10 h-10 transition hover:bg-slate-200">
-          <i class="bi bi-bell"></i>
+        <button type="button"
+                class="text-xl text-gray-600 rounded-full w-10 h-10 transition hover:bg-slate-200"
+                title="Notifications">
+          <i class="bi bi-bell-fill"></i>
         </button>
       </div>
+
+      <!-- User Profile -->
       <div class="relative inline-block profile-dropdown">
         <div class="flex items-center">
-          <button type="button" (click)="onClickProfile()"
-                  class="flex w-10 h-10 overflow-hidden rounded-full border-2 border-emerald-600 shadow">
-            <img src={{userOne}} alt="Profile" class="w-full object-cover">
+          <button type="button"
+                  (click)="onClickProfile()"
+                  class="flex w-10 h-10 overflow-hidden rounded-full border-2 border-emerald-600 shadow"
+                  title="User Profile">
+            <img src="{{ userOne }}" alt="Profile" class="w-full object-cover" />
           </button>
           <div class="text-left ml-3">
-            <p>johndoe</p>
-            <p class="text-light text-xs">Administrator</p>
+            <p>{{ userName }}</p>
+            <p class="text-light text-xs">{{ userEmail }}</p>
           </div>
         </div>
       </div>
